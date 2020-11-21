@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sc.spring.mapper.UserinfoMapper">
+    <insert id="addUserinfo" parameterType="com.sc.spring.entity.Userinfo">
+        insert into userinfo values(null,#{userName},#{userPassword},#{userAge},#{userSex})
+    </insert>
+    <update id="updateUserinfo" parameterType="com.sc.spring.entity.Userinfo">
+        update userinfo set user_name=#{userName},user_password=#{userPassword},user_age=#{userAge},
+        user_sex=#{userSex} where user_id=#{userId}
+    </update>
+    <delete id="deleteUserinfo" parameterType="com.sc.spring.entity.Userinfo">
+        delete from userinfo where user_id=#{userId}
+    </delete>
+    <!--当数据库属性名称和实体类属性名称不一样可以起别名，也可以用resultMap-->
+    <select id="selectUserinfo" resultType="com.sc.spring.entity.Userinfo">
+        select user_id as userId,user_name as userName,user_password as userPassword,
+        user_age as userAge,user_sex as userSex from userinfo
+    </select>
+
+    <select id="selectUserinfo1" resultMap="userinfoMap">
+        select * from userinfo
+    </select>
+
+    <!--当数据库属性名和实体类属性名一样时，加autoMapping自动映射，可省去result标签内容-->
+    <!--必须有id-->
+    <!--当数据库属性名和实体类属性名不一样时，加autoMapping自动映射，需要在配置文件中-->
+    <!--配置驼峰命名法则，可省去result标签内容，必须有id-->
+    <resultMap id="userinfoMap" type="com.sc.spring.entity.Userinfo" autoMapping="true">
+        <id column="user_id" property="userId"></id>
+        <result column="user_name" property="userName"></result>
+        <result column="user_password" property="userPassword"></result>
+        <result column="user_age" property="userAge"></result>
+        <result column="user_sex" property="userSex"></result>
+    </resultMap>
+</mapper>
